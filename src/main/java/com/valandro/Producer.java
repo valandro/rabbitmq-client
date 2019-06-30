@@ -1,28 +1,33 @@
 package com.valandro;
 
 
+import com.valandro.data.Entries100;
+import com.valandro.data.Entries1000;
+import com.valandro.repository.Entries1000Repository;
+import lombok.AllArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Component
+@AllArgsConstructor
 public class Producer implements CommandLineRunner {
 
     private final RabbitTemplate rabbitTemplate;
     private final Consumer consumer;
-
-    public Producer(Consumer consumer, RabbitTemplate rabbitTemplate) {
-        this.consumer = consumer;
-        this.rabbitTemplate = rabbitTemplate;
-    }
+    private final Entries1000Repository repository;
 
     @Override
     public void run(String... args) throws Exception {
-        System.out.println("Sending message...");
-        rabbitTemplate.convertAndSend(Application.topicExchangeName, "foo.bar.baz", "Hello from RabbitMQ!");
-        consumer.getLatch().await(10000, TimeUnit.MILLISECONDS);
+        List<Entries1000> entries = repository.findAll();
+        System.out.println("Sending messages...");
+        entries.forEach(e -> {
+            rabbitTemplate.convertAndSend(Application.topicExchangeName, "foo.bar.baz", e.getFirstName());
+        });
+        consumer.getLatch().await(100, TimeUnit.MILLISECONDS);
     }
 
 }
