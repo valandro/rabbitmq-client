@@ -5,8 +5,7 @@ openIssueColumns: []
 
 # Close issues that are moved to these project columns. Set to `[]` to disable
 closedIssueColumns:
-  - Closed
-  - Done
+  - Homolog
 
 # Repository to extend settings from
 # _extends: repo
