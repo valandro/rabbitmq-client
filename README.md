@@ -16,6 +16,22 @@ protocol of the receiver."
 or organizations.  It connects systems, feeds business processes with the information they need and reliably transmits 
 onward the instructions that achieve their goals."
 
+## Project's architeture
+
+### 1 Queue
+
+- **master branch**
+
+![One queue](/img/one-queue.png)
+
+
+### 2 Queues
+
+- **two-queues branch**
+
+![Two queues](/img/two-queues.png)
+
+
 ### Running
 
 First of all, you should have a `Docker RabbitMQ container` running: 
