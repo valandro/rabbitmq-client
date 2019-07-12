@@ -22,10 +22,15 @@ public class Producer implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+
         List<Entries1000> entries = repository.findAll();
         System.out.println("Sending messages...");
         entries.forEach(e -> {
-            rabbitTemplate.convertAndSend(Application.topicExchangeName, "foo.bar.baz", e.getFirstName());
+            if (e.getGender().equals("F")) {
+                rabbitTemplate.convertAndSend(Application.topicExchangeName, "female", e.getFirstName());
+            } else {
+                rabbitTemplate.convertAndSend(Application.topicExchangeName, "male", e.getFirstName());
+            }
         });
         consumer.getLatch().await(100, TimeUnit.MILLISECONDS);
     }

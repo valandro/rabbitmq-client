@@ -16,12 +16,16 @@ import org.springframework.context.annotation.Bean;
 public class Application {
     static final String topicExchangeName = "spring-boot-exchange";
 
-    static final String queueName = "spring-boot";
+    static final String queueFisrtName = "female-queue";
+    static final String queueLastName = "male-queue";
 
     @Bean
-    Queue queue() {
-        return new Queue(queueName, false);
+    Queue firstNameQueue() {
+        return new Queue(queueFisrtName, false);
     }
+
+    @Bean
+    Queue lastNameQueue() { return new Queue(queueLastName, false); }
 
     @Bean
     TopicExchange exchange() {
@@ -29,8 +33,13 @@ public class Application {
     }
 
     @Bean
-    Binding binding(Queue queue, TopicExchange exchange) {
-        return BindingBuilder.bind(queue).to(exchange).with("foo.bar.#");
+    Binding bindingLastName(TopicExchange exchange) {
+        return BindingBuilder.bind(firstNameQueue()).to(exchange).with("female");
+    }
+
+    @Bean
+    Binding bindingFirstName(TopicExchange exchange) {
+        return BindingBuilder.bind(lastNameQueue()).to(exchange).with("male");
     }
 
     @Bean
@@ -38,7 +47,7 @@ public class Application {
                                              MessageListenerAdapter listenerAdapter) {
         SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
-        container.setQueueNames(queueName);
+        container.setQueueNames(queueFisrtName, queueLastName);
         container.setMessageListener(listenerAdapter);
         return container;
     }
