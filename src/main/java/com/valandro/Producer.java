@@ -1,9 +1,10 @@
 package com.valandro;
 
 
-import com.valandro.data.Entries100;
-import com.valandro.data.Entries1000;
-import com.valandro.repository.Entries1000Repository;
+import com.valandro.data.Entries100000;
+import com.valandro.data.Entries5000;
+import com.valandro.repository.Entries100000Respository;
+import com.valandro.repository.Entries5000Repository;
 import lombok.AllArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.boot.CommandLineRunner;
@@ -18,11 +19,11 @@ public class Producer implements CommandLineRunner {
 
     private final RabbitTemplate rabbitTemplate;
     private final Consumer consumer;
-    private final Entries1000Repository repository;
+    private final Entries100000Respository repository;
 
     @Override
     public void run(String... args) throws Exception {
-        List<Entries1000> entries = repository.findAll();
+        List<Entries100000> entries = repository.findAll();
         System.out.println("Sending messages...");
         entries.forEach(e -> {
             rabbitTemplate.convertAndSend(Application.topicExchangeName, "foo.bar.baz", e.getFirstName());
