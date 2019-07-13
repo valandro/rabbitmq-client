@@ -61,6 +61,6 @@ public class Application {
         Long startTime = System.currentTimeMillis();
         SpringApplication.run(Application.class, args).close();
         Long endTime = System.currentTimeMillis();
-        System.out.println("Execution time: " + (endTime - startTime));
+        System.out.println("Execution time: " + (endTime - startTime) + " ms");
     }
 }

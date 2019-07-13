@@ -6,8 +6,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 @Data
-@Document(collection = "entries1000")
-public class Entries1000 {
+@Document(collection = "entries50000")
+public class Entries50000 {
     public ObjectId id;
     @Field("first_name")
     public String firstName;
