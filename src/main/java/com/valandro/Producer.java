@@ -1,10 +1,8 @@
 package com.valandro;
 
 
-import com.valandro.data.Entries100000;
-import com.valandro.data.Entries5000;
-import com.valandro.repository.Entries100000Respository;
-import com.valandro.repository.Entries5000Repository;
+import com.valandro.data.*;
+import com.valandro.repository.*;
 import lombok.AllArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.boot.CommandLineRunner;
@@ -19,11 +17,11 @@ public class Producer implements CommandLineRunner {
 
     private final RabbitTemplate rabbitTemplate;
     private final Consumer consumer;
-    private final Entries100000Respository repository;
+    private final Entries100Repository repository;
 
     @Override
     public void run(String... args) throws Exception {
-        List<Entries100000> entries = repository.findAll();
+        List<Entries100> entries = repository.findAll();
         System.out.println("Sending messages...");
         entries.forEach(e -> {
             if (e.getGender().equals("Female")) {
